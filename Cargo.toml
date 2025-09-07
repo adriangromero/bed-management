@@ -1,0 +1,12 @@
+[package]
+name = "bed_management"
+version = "0.1.0"
+edition = "2021"
+description = "Simplified hospital bed management (tech test)"
+license = "MIT"
+
+[dependencies]
+# No external deps: keep it simple
+
+[dev-dependencies]
+# none
