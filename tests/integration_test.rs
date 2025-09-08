@@ -36,12 +36,14 @@ fn test_pediatric_unit() {
 
     // Rule: Children under 13 MUST be in unit 5
     let child = Patient::new(20001, "Child".to_string(), 10, Gender::Male, false, false);
-    
+
+    // Should fail in units 1, 2, 4
+
     // Should fail in units 1, 2, 4
     assert!(hospital.admit_patient(child.clone(), 101).is_err());
     assert!(hospital.admit_patient(child.clone(), 201).is_err());
     assert!(hospital.admit_patient(child.clone(), 401).is_err());
-    
+
     // Should succeed in unit 5
     assert!(hospital.admit_patient(child, 501).is_ok());
 
@@ -76,7 +78,14 @@ fn test_gender_mixing() {
 
     // Rule: Same gender only in shared rooms
     let male = Patient::new(40001, "Male".to_string(), 30, Gender::Male, false, false);
-    let female = Patient::new(40002, "Female".to_string(), 30, Gender::Female, false, false);
+    let female = Patient::new(
+        40002,
+        "Female".to_string(),
+        30,
+        Gender::Female,
+        false,
+        false,
+    );
 
     assert!(hospital.admit_patient(male, 201).is_ok());
     // Female cannot share room with male
@@ -88,11 +97,11 @@ fn test_move_patient_rules() {
     let mut hospital = Hospital::new();
 
     let p = Patient::new(50001, "P".to_string(), 30, Gender::Male, false, false);
-    
+
     // Admit and move to valid bed
     assert!(hospital.admit_patient(p, 101).is_ok());
     assert!(hospital.move_patient(50001, 201).is_ok());
-    
+
     // Cannot move to non-existent bed
     assert!(hospital.move_patient(50001, 301).is_err());
 }
@@ -104,7 +113,7 @@ fn test_switch_patients_validation() {
     // Case 1: Same gender switch - should work
     let m1 = Patient::new(60001, "M1".to_string(), 30, Gender::Male, false, false);
     let m2 = Patient::new(60002, "M2".to_string(), 35, Gender::Male, false, false);
-    
+
     hospital.admit_patient(m1, 101).unwrap();
     hospital.admit_patient(m2, 201).unwrap();
     assert!(hospital.switch_patients(60001, 60002).is_ok());
@@ -112,7 +121,7 @@ fn test_switch_patients_validation() {
     // Case 2: Child under 13 cannot leave unit 5
     let child = Patient::new(60003, "Child".to_string(), 10, Gender::Male, false, false);
     let adult = Patient::new(60004, "Adult".to_string(), 30, Gender::Male, false, false);
-    
+
     hospital.admit_patient(child, 501).unwrap();
     hospital.admit_patient(adult, 401).unwrap();
     // Switch would move child out of unit 5 - should fail
@@ -142,8 +151,8 @@ fn test_mark_infected_moves_roommate() {
 fn test_all_rules_together() {
     let mut hospital = Hospital::new();
 
-    // Complex scenario testing multiple rules
-    let patients = vec![
+    // Complex scenario testmultiple rules
+    let patients = [
         Patient::new(80001, "P1".to_string(), 30, Gender::Male, false, false),
         Patient::new(80002, "P2".to_string(), 35, Gender::Male, false, false),
         Patient::new(80003, "P3".to_string(), 25, Gender::Female, false, false),

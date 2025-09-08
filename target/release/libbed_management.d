@@ -1,0 +1,1 @@
+C:\workspace\bed-management\target\release\libbed_management.rlib: C:\workspace\bed-management\src\domain\bed.rs C:\workspace\bed-management\src\domain\constants.rs C:\workspace\bed-management\src\domain\hospital.rs C:\workspace\bed-management\src\domain\mod.rs C:\workspace\bed-management\src\domain\patient.rs C:\workspace\bed-management\src\lib.rs
